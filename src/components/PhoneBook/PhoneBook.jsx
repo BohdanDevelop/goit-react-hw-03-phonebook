@@ -18,14 +18,16 @@ class PhoneBook extends Component {
   };
   componentDidMount() {
     const savedContacts = JSON.parse(window.localStorage.getItem('contacts'));
-    console.log(savedContacts);
+
     if (savedContacts?.length) {
       this.setState({ contacts: [...savedContacts] });
     }
   }
-  componentDidUpdate() {
-    const { contacts } = this.state;
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      const { contacts } = this.state;
+      window.localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
   }
   handleFilter = evt => {
     const { value } = evt.target;
